@@ -1,0 +1,114 @@
+/*
+For building the encrypted string:
+Take every 2nd char from the string, then the other chars, that are not every 2nd char, and concat them as new String.
+Do this n times!
+
+Examples:
+
+"This is a test!", 1 -> "hsi  etTi sats!"
+"This is a test!", 2 -> "hsi  etTi sats!" -> "s eT ashi tist!"
+
+Write two methods:
+
+String encrypt(final String text, final int n)
+String decrypt(final String encryptedText, final int n)
+
+For both methods:
+If the input-string is null or empty return exactly this value!
+If n is <= 0 then return the input text.
+*/
+
+
+public class Kata {
+
+ public static String encrypt( final String text, final int n ) {
+
+    // Your code here
+
+     if ( text == "" ) 	  return "";
+     if ( text == null )  return null;
+     if ( n <= 0 ) 	  return text;
+    
+    int k = n;
+
+    char [] arr = text.toCharArray();
+    char[] tmp 	= new char[arr.length];
+    
+    int j = 0;
+
+    for (int i = 0; i < arr.length; i ++ ) {
+
+      if ( i % 2 == 1 ) {
+
+        tmp[j] = arr[i];
+        j++;
+
+      }
+    }
+    
+    for (int i = 0; i < arr.length; i ++ ) {
+
+      if ( i % 2 != 1 ) {
+
+        tmp[j] = arr[i];
+        j++;
+
+      }
+    }
+
+    String s = new String ( tmp );
+    
+    if ( k == 1 ) {
+        return s;
+    } else {
+        return encrypt( s, k -= 1 );
+    }
+  }
+  
+  public static String decrypt( final String encryptedText, final int n ) {
+    // Your code here
+     if ( encryptedText == "" )   return "";
+     if ( encryptedText == null ) return null;
+     if ( n <= 0 ) 		  return encryptedText;
+     
+    int k 	= n;
+    int mutex 	= 0;
+    char [] arr = encryptedText.toCharArray();
+    char[] tmp 	= new char[arr.length];
+    
+    int j 	= 0;
+    int cnt 	= 0;
+    int floop 	= ( int ) Math.ceil( arr.length/2 );
+    int sloop 	= 0;
+    
+    while ( cnt <= arr.length - 1 ) {
+    
+      if ( mutex == 0 && floop < arr.length ) {
+
+        tmp[j] = arr[floop];
+        j++;
+        floop ++;
+        cnt ++;
+        mutex = 1;
+      } 
+    
+     else if ( mutex == 1 && sloop < ( int ) Math.ceil( arr.length/2 )) {
+
+        tmp[j] = arr[sloop];
+        j++;
+        sloop ++;
+        cnt++;
+        mutex = 0;
+      }
+      
+    }
+    String s = new String ( tmp );
+    
+    if ( k == 1 ) {
+        return s;
+        
+    } else {
+        return decrypt( s, k -= 1 );
+    }
+  }
+}
